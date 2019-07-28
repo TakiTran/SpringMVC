@@ -20,7 +20,7 @@ public class UserService {
 	public int checkUser(User u) {
 		int result = -1;
 		List<User> users = userDao.getUser(u.getUsername());
-		if (users != null) {
+		if (!users.isEmpty()) {
 			if(users.get(0).getPassword().equals(u.getPassword())) {
 				if (users.get(0).getRole().equals("admin")) {
 					result = 0;

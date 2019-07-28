@@ -27,7 +27,7 @@ public class WordController {
 	public String getWordList(Model model, 
 			@ModelAttribute("typeMessage") String typeMess, 
 			@ModelAttribute("contentMessage") String contentMess) {
-		model.addAttribute("words", wordService.getAll());
+		model.addAttribute("words", wordService.getAll(2).getList());
 		model.addAttribute("typeMessage", typeMess);
 		model.addAttribute("contentMessage", contentMess);
 		return "word-list";
@@ -52,7 +52,7 @@ public class WordController {
 	
 	
 	@PostMapping("admin/word-save")
-	public String saveWord(@ModelAttribute("word") Word word,RedirectAttributes model) {
+	public String saveWord(@ModelAttribute("word") Word word, RedirectAttributes model) {
 		int id = word.getId();
 		String message = "";
 		wordService.saveWord(word);
@@ -67,8 +67,11 @@ public class WordController {
 	}
 	
 	@GetMapping("admin/word-delete")
-	public String deleteWord(@ModelAttribute("id") int id) {
+	public String deleteWord(@ModelAttribute("id") int id, RedirectAttributes model) {
 		wordService.deleteWord(wordService.findById(id));
+		String message = "Xóa thành công";
+		model.addAttribute("typeMessage", "success");
+		model.addAttribute("contentMessage", message);
 		return "redirect:word-list";
 	}
 	

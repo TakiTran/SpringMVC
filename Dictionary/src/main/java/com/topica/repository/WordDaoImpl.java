@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.topica.model.Word;
+import com.topica.pagination.PaginationResult;
 
 @Repository
 @Transactional
@@ -20,12 +21,12 @@ public class WordDaoImpl implements WordDao {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public List<Word> getAll() {
-		List<Word> words = null;
+	public PaginationResult<Word> getAll(int page) {
 		Session session = sessionFactory.openSession();
-		words = session.createQuery("FROM Word", Word.class).getResultList();
+		org.hibernate.query.Query<Word> query = session.createQuery("FROM Word", Word.class);
+		PaginationResult<Word> result = new PaginationResult<Word>(query, page, 3, 5);
 		session.close();
-		return words;
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")

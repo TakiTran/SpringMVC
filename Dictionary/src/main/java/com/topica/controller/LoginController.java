@@ -29,7 +29,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@ModelAttribute("user") User user) {
+	public String login(@ModelAttribute("user") User user, Model model) {
 		int result = userService.checkUser(user);
 		if(result != -1) {
 			if(result == 0) {
@@ -38,6 +38,7 @@ public class LoginController {
 				return "redirect:home";
 			}
 		} else {
+			model.addAttribute("message", "Thông tin tài khoản sai.");
 			return "login";
 		}
 	}

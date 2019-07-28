@@ -30,6 +30,7 @@
    .form-group > input {
       background-color: #f4f4f4;
       height: 40px;
+      padding: 10px;
    }
    .error {
       color: red;
@@ -52,9 +53,7 @@
          <form:form action="login" method="post" modelAttribute="user">
             <div class="form-group">
                <form:input class="form-control" path="username" type="text" id="username" name="username" placeholder="username"/>
-            </div>
-            <div class="form-group">
-              <span class="error" id="message-error"></span >
+               <span class="error" id="message-error"></span >
             </div>
             <div class="form-group">
                <form:input class="form-control" path="password" type="password" id="password" name="password" placeholder="password"/>
@@ -70,4 +69,28 @@
       </div>
    </div>
 </body>
+<script type="text/javascript">
+	function hideError() {
+		$("#username").keyup(function(){
+			$("#message-error").hide();
+		});
+		$("#username").keydown(function(){
+			$("#message-error").hide();
+		});
+		$("#password").keyup(function(){
+			$("#message-error").hide();
+		});
+		$("#password").keydown(function(){
+			$("#message-error").hide();
+		});
+	}
+	$(document).ready(function(){
+		var error = '${message}';
+		if(error != '') {
+			$("#message-error").text(error);
+			$("#message-error").show();
+		}
+		hideError();
+	});
+</script>
 </html>

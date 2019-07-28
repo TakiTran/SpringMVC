@@ -30,7 +30,7 @@
 				<h4 style="text-align:center">Word</h4>
 			</div>
 			<div class="card-body">
-				<form:form action="word-save" method="post" modelAttribute="word">
+				<form:form id="submit-word" action="word-save" method="post" modelAttribute="word">
 					<form:input type="hidden" path="id"/>
 					<div class="row">
 						<div class="col-sm-6 form-group">
@@ -54,7 +54,7 @@
 					</div>
 					<div class="form-group" style="text-align: right;">
 						<a id="btn-delete" class="btn btn-sm btn-danger twitter" href="word-delete?id=${word.id}">Xóa</a>	
-						<button class="btn btn-sm btn-success" type="submit">Cập nhật</button>	
+						<button id ="btn_submit" class="btn btn-sm btn-success" type="submit">Cập nhật</button>	
 					</div>
 				</form:form>
 			</div>
@@ -93,6 +93,14 @@
 			}
 		});
 	}
+	function check() {
+		var error = $("#message-error").text();
+		if (error != '') {
+			$("#btn_submit").show();
+		} else {
+			$("#btn_submit").hide();
+		}
+	}
 	$(document).ready(function(){
 		checkUpdate();
 		 $('a.twitter').confirm({
@@ -111,6 +119,7 @@
 		});
 		$("#key").change(function(){
 			checkKey();
+			check();
 		});
 	});
 </script>

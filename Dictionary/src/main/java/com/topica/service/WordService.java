@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.topica.repository.WordDao;
 import com.topica.model.Word;
+import com.topica.pagination.PaginationResult;
 
 @Service
 @Transactional
@@ -29,8 +30,8 @@ public class WordService {
 		wordDao.delete(word);
 	}
 	
-	public List<Word> getAll() {
-		return wordDao.getAll();
+	public PaginationResult<Word> getAll(int page) {
+		return wordDao.getAll(page);
 	}
 	
 	public List<Word> getByType(int type) {
