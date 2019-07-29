@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.topica.model.Word;
+import com.topica.pagination.PaginationResult;
 import com.topica.service.WordService;
 
 @Controller
@@ -24,18 +25,46 @@ public class WordController {
 	private WordService wordService;
 	
 	@GetMapping("admin/word-list")
-	public String getWordList(Model model, 
+	public String getWordList(Model model, @RequestParam(value = "page", required = false) Integer indexPage, 
 			@ModelAttribute("typeMessage") String typeMess, 
 			@ModelAttribute("contentMessage") String contentMess) {
-		model.addAttribute("words", wordService.getAll(2).getList());
+		PaginationResult<Word> page;
+		int curPage;
+		if(indexPage == null) {
+			curPage = 1;
+		} else {
+			curPage = indexPage;
+		}
+		page = wordService.getAll(curPage);
+		int totalPages = page.getTotalPages();
+		int totalRecords = page.getTotalRecords();
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("totalrecords", totalRecords);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("words", page.getList());
 		model.addAttribute("typeMessage", typeMess);
 		model.addAttribute("contentMessage", contentMess);
 		return "word-list";
 	}
 	
 	@PostMapping("admin/word-list")
-	public String getWordByType(Model model, @RequestParam("type") int type, @RequestParam("key") String word) {
-		model.addAttribute("words", wordService.relativeSearch(word, type));
+	public String getWordByType(Model model, @RequestParam("type") int type, 
+			@RequestParam(value = "page", required = false) Integer indexPage,
+			@RequestParam("key") String word) {
+		PaginationResult<Word> page;
+		int curPage;
+		if(indexPage == null) {
+			curPage = 1;
+		} else {
+			curPage = indexPage;
+		}
+		page = wordService.relativeSearchPage(word, type, curPage);
+		int totalPages = page.getTotalPages();
+		int totalRecords = page.getTotalRecords();
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("totalrecords", totalRecords);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("words", page.getList());
 		return "word-list";
 	}
 	

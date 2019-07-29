@@ -46,6 +46,10 @@ public class WordService {
 		return wordDao.relativeSearch(word, type);
 	}
 	
+	public PaginationResult<Word> relativeSearchPage(String word, int type, int page){
+		return wordDao.relativeSearchPage(word, type, page);
+	}
+	
 	public boolean checkKeyExists(String key) {
 		return wordDao.checkKeyExists(key);
 	}

@@ -36,8 +36,8 @@
 						<div class="col-sm-6 form-group">
 							<span>Thể loại</span>
 							<form:select class="form-control" path="type" id="type">
-								<form:option value="1">ENG-VIE</form:option>
-								<form:option value="2">VIE-ENG</form:option>
+								<form:option value="1" selected="selected">English - Vietnamese</form:option>
+								<form:option value="2">Vietnamese - English</form:option>
 							</form:select>
 						</div>
 						<div class="col-sm-6 form-group">
@@ -83,23 +83,17 @@
 				if(data == "exist") {
 					$("#message-error").html("Key đã tồn tại.");
 					$("#key").css({"border-color":"red"});
+					$("#btn_submit").hide();
 				} else {
 					$("#message-error").html("");
 					$("#key").css({"border-color":"#ced4da"});
+					$("#btn_submit").show();
 				}
 			},
 			error: function (e) {
 				console.log(e);
 			}
 		});
-	}
-	function check() {
-		var error = $("#message-error").text();
-		if (error != '') {
-			$("#btn_submit").show();
-		} else {
-			$("#btn_submit").hide();
-		}
 	}
 	$(document).ready(function(){
 		checkUpdate();
@@ -119,7 +113,6 @@
 		});
 		$("#key").change(function(){
 			checkKey();
-			check();
 		});
 	});
 </script>

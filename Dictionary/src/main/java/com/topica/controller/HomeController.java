@@ -31,7 +31,6 @@ public class HomeController {
 	public ResponseEntity<List<WordDTO>> absoluteSearch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		List<WordDTO> wordDtos = new ArrayList<>();
 		String textSearch = req.getParameter("textSearch");
-		System.out.println(textSearch);
 		if (!textSearch.isEmpty()) {
 			int type = 0;
 			if (req.getParameter("type") != null) {

@@ -62,5 +62,19 @@
 	<!-- enable configuration of transactional behavior based on annotations -->
 	<tx:annotation-driven
 		transaction-manager="myTransactionManager" />
+		
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/*" />
+			<mvc:mapping path="/home" />
+			<bean
+				class="com.topica.filter.SessionFilter"></bean>
+		</mvc:interceptor>
 
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/*" />
+			<bean
+				class="com.topica.filter.AdminFilter"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>  

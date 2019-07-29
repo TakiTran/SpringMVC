@@ -13,5 +13,6 @@ public interface WordDao {
 	public List<Word> getByType(int type);
 	public List<Word> absoluteSearch(String word, int type);
 	public List<Word> relativeSearch(String word, int type);
+	public PaginationResult<Word> relativeSearchPage(String word, int type,int page);
 	public boolean checkKeyExists (String key);
 }

@@ -8,6 +8,7 @@ import org.hibernate.ScrollableResults;
 import org.hibernate.query.Query;
 
 public class PaginationResult<E> {
+	public static final int recordInPage = 3; 
 	private int totalRecords;
 	private int currentPage;
 	private List<E> list;
@@ -19,6 +20,7 @@ public class PaginationResult<E> {
 	private List<Integer> navigationPages;
 
 	// @page: 1, 2, ..
+	@SuppressWarnings("unchecked")
 	public PaginationResult(Query<E> query, int page, int maxResult, int maxNavigationPage) {
 		final int pageIndex = page - 1 < 0 ? 0 : page - 1;
 

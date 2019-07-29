@@ -53,8 +53,8 @@
 						<div class="form-group form-check col-sm-4">
 							<label>Thể loại</label>
 							 <select class="form-control" id="select-type" name="type">
-						     	<option value="1">English - Việt Nam</option>
-						     	<option value="2">Việt Nam - English</option>
+						     	<option value="1" selected="selected">English - Vietnamese</option>
+						     	<option value="2">Vietnamese - English</option>
 						      </select>
 						</div>
 						<div class="form-group form-check col-sm-4">
@@ -78,9 +78,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="word" items="${words}">
+						<c:forEach var="word" items="${words}" varStatus="cnt">
 							<tr>
-								<td>1</td>
+								<td><c:out value="${cnt.count+ 3*curPage - 3}" /></td>
 								<td>${word.key}</td>
 								<td>${word.mean}</td>
 								<td>
@@ -91,6 +91,25 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<ul class="pagination justify-content-center">
+				 	<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+					<c:forEach begin="1" end="${totalPages}" var="page" >
+						<c:url value="/admin/word-list" var="pagingUrl">
+				            <c:param name="page" value="${page}"></c:param>
+				        </c:url>
+				        <c:choose>
+				        	<c:when test="${ curPage == page }">
+				              	<li class="page-item active"><a class="page-link"
+				                href="${ pagingUrl }">${ page }</a></li>
+				            </c:when>
+				            <c:otherwise>
+				              <li class="page-item"><a class="page-link"
+				                href="${ pagingUrl }">${ page }</a></li>
+				            </c:otherwise>
+				    	</c:choose>
+					</c:forEach >
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+			  	</ul>
 			</div>
 		</div>
 	</div>
@@ -124,6 +143,7 @@
 		    }
 		});
 		Message();
+		console.log('${curPage}');
 	});
 </script>
 </html>

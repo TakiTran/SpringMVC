@@ -1,5 +1,8 @@
 package com.topica.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,23 +26,32 @@ public class LoginController {
 	}
 	
 	@GetMapping("/login")
-	public String getLogin(Model model) {
+	public String getLogin(Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		session.setAttribute("token", null);
 		model.addAttribute("user", new User());
 		return "login";
 	}
 	
 	@PostMapping("/login")
-	public String login(@ModelAttribute("user") User user, Model model) {
-		int result = userService.checkUser(user);
-		if(result != -1) {
-			if(result == 0) {
+	public String login(@ModelAttribute("user") User user, Model model, HttpServletRequest req) {
+		User u = userService.getUser(user);
+		if (u == null || !u.getPassword().equals(user.getPassword())) {
+			model.addAttribute("message", "Thông tin tài khoản sai.");
+			return "login";
+		} else {
+			HttpSession session = req.getSession();
+			session.setAttribute("token", u.getRole());
+			if(u.getRole().equals("admin")) {
 				return "redirect:admin/word-list";
 			} else {
 				return "redirect:home";
 			}
-		} else {
-			model.addAttribute("message", "Thông tin tài khoản sai.");
-			return "login";
 		}
+	}
+	
+	@GetMapping("/page-403")
+	public String get403Page() {
+		return "403-page";
 	}
 }

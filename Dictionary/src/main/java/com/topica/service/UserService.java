@@ -17,18 +17,12 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	public int checkUser(User u) {
-		int result = -1;
+	public User getUser(User u) {
 		List<User> users = userDao.getUser(u.getUsername());
+		User user = null;
 		if (!users.isEmpty()) {
-			if(users.get(0).getPassword().equals(u.getPassword())) {
-				if (users.get(0).getRole().equals("admin")) {
-					result = 0;
-				} else {
-					result = 1;
-				}
-			}
+			user = users.get(0);
 		}
-		return result;
+		return user;
 	}
 }

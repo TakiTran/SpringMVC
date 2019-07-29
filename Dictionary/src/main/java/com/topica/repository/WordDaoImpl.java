@@ -24,7 +24,7 @@ public class WordDaoImpl implements WordDao {
 	public PaginationResult<Word> getAll(int page) {
 		Session session = sessionFactory.openSession();
 		org.hibernate.query.Query<Word> query = session.createQuery("FROM Word", Word.class);
-		PaginationResult<Word> result = new PaginationResult<Word>(query, page, 3, 5);
+		PaginationResult<Word> result = new PaginationResult<Word>(query, page, PaginationResult.recordInPage, 10);
 		session.close();
 		return result;
 	}
@@ -53,6 +53,18 @@ public class WordDaoImpl implements WordDao {
 		words = query.getResultList();
 		session.close();
 		return words;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public PaginationResult<Word> relativeSearchPage(String word, int type, int page) {
+		Session session = sessionFactory.openSession();
+		org.hibernate.query.Query<Word> query = session.createQuery("FROM Word as w where w.type = :type and w.key like concat('%',:word,'%')");
+		query.setParameter("type", type);
+		query.setParameter("word", word);
+		PaginationResult<Word> result = new PaginationResult<Word>(query, page, PaginationResult.recordInPage, 10);
+		session.close();
+		return result;
 	}
 
 	@Transactional
