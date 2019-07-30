@@ -123,8 +123,8 @@
 		if(messageResult == "success"){
 	    	 toastr.success(contentResult,'Notification')
 	    }
-	    if(messageResult == "error"){
-	    	 toastr.error(contentResult,'Notification')
+	    if(messageResult == "warning"){
+	    	 toastr.warning(contentResult,'Notification')
 	    }
 	}
 	$(document).ready(function(){

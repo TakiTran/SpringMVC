@@ -113,7 +113,9 @@ public class WordDaoImpl implements WordDao {
 	@Override
 	public Word findById(int id) {
 		Session session = sessionFactory.openSession();
-		return session.get(Word.class, id);
+		Word word = session.get(Word.class, id);
+		session.close();
+		return word;
 	}
 
 }

@@ -84,13 +84,21 @@ public class WordController {
 	public String saveWord(@ModelAttribute("word") Word word, RedirectAttributes model) {
 		int id = word.getId();
 		String message = "";
-		wordService.saveWord(word);
+		String typeMessage = "";
 		if (id != 0) {
-			message = "Cập nhật thành công.";
+			if (!wordService.updateWord(word)) {
+				typeMessage = "warning";
+				message = "Bạn đang cố tình chỉnh 1 số thuộc tính nhà phát hành không cho phép. Chúng tôi chỉ cập nhật những trường được cho phép.";
+			} else {
+				typeMessage = "success";
+				message = "Cập nhật thành công.";
+			}
 		} else {
+			wordService.saveWord(word);
+			typeMessage = "success";
 			message = "Tạo mới thành công.";
 		}
-		model.addAttribute("typeMessage", "success");
+		model.addAttribute("typeMessage", typeMessage);
 		model.addAttribute("contentMessage", message);
 		return "redirect:word-list";
 	}

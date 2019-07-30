@@ -26,6 +26,19 @@ public class WordService {
 		wordDao.saveWord(word);
 	}
 	
+	public boolean updateWord(Word word) {
+		int id = word.getId();
+		Word w = wordDao.findById(id);
+		boolean result = true;
+		if (!w.getKey().equals(word.getKey()) || (w.getType() != word.getType())) {
+			word.setKey(w.getKey());
+			word.setType(w.getType());
+			result = false;
+		}
+		wordDao.saveWord(word);
+		return result;
+	}
+	
 	public void deleteWord(Word word) {
 		wordDao.delete(word);
 	}
